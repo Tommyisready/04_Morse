@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Latin-Morse Translator</title>
+    <style>
+      /* Style pour le corps de la page */
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      /* Style pour les champs de saisie et les boutons */
+      input,
+      button {
+        margin: 10px 0;
+        padding: 10px;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Latin-Morse Translator</h1>
+    <!-- Champ de saisie pour le texte en latin -->
+    <label for="latinInput">Text:</label>
+    <input type="text" id="latinInput" placeholder="Enter Latin text" />
+    <br />
+    <!-- Bouton pour traduire du texte en latin vers le morse -->
+    <button onclick="translateToMorse()">Translate to Morse</button>
+    <br />
+    <!-- Champ de saisie pour le texte en morse -->
+    <label for="morseInput">Morse:</label>
+    <input type="text" id="morseInput" placeholder="Enter Morse code" />
+    <br />
+    <!-- Bouton pour traduire du morse vers le texte en latin -->
+    <button onclick="translateToLatin()">Translate to Latin</button>
+
+    <script>
+      // Fonction pour transformer une chaîne de caractères en un tableau de caractères
+      function getLatinCharacterList(text) {
+        return text.split("");
+      }
+
+      // Dictionnaire de correspondance des caractères latins vers le morse
+      const latinToMorse = {
+        A: ".-",
+        B: "-...",
+        C: "-.-.",
+        D: "-..",
+        E: ".",
+        F: "..-.",
+        G: "--.",
+        H: "....",
+        I: "..",
+        J: ".---",
+        K: "-.-",
+        L: ".-..",
+        M: "--",
+        N: "-.",
+        O: "---",
+        P: ".--.",
+        Q: "--.-",
+        R: ".-.",
+        S: "...",
+        T: "-",
+        U: "..-",
+        V: "...-",
+        W: ".--",
+        X: "-..-",
+        Y: "-.--",
+        Z: "--..",
+        " ": "/",
+      };
+
+      // Fonction pour traduire un caractère latin en morse
+      function translateLatinCharacter(char) {
+        let upperChar = char.toUpperCase();
+        return latinToMorse[upperChar] || "";
+      }
+
+      // Fonction pour encoder un texte latin en morse
+      function encode(text) {
+        let characters = getLatinCharacterList(text);
+        let morseCharacters = characters.map((char) =>
+          translateLatinCharacter(char)
+        );
+        return morseCharacters.join(" ");
+      }
+
+      // Dictionnaire de correspondance des caractères morse vers le latin
+      const morseToLatin = {
+        "-": "T",
+        "--": "M",
+        "---": "O",
+        "--.": "G",
+        "--.-": "Q",
+        "--..": "Z",
+        "-.": "N",
+        "-.-": "K",
+        "-.--": "Y",
+        "-.-.": "C",
+        "-..": "D",
+        "-..-": "X",
+        "-...": "B",
+        ".": "E",
+        ".-": "A",
+        ".--": "W",
+        ".---": "J",
+        ".--.": "P",
+        ".-.": "R",
+        ".-..": "L",
+        "..": "I",
+        "..-": "U",
+        "..-.": "F",
+        "...": "S",
+        "...-": "V",
+        "....": "H",
+        "/": " ",
+      };
+
+      // Fonction pour transformer un texte morse en un tableau de codes morse
+      function getMorseCharacterList(morseText) {
+        return morseText.split(" ");
+      }
+
+      // Fonction pour traduire un code morse en caractère latin
+      function translateMorseCharacter(morseChar) {
+        return morseToLatin[morseChar] || "";
+      }
+
+      // Fonction pour décoder un texte morse en texte latin
+      function decode(morseText) {
+        let morseCharacters = getMorseCharacterList(morseText);
+        let latinCharacters = morseCharacters.map((morseChar) =>
+          translateMorseCharacter(morseChar)
+        );
+        return latinCharacters.join("");
+      }
+
+      // Fonction pour traduire le texte en latin vers le morse
+      function translateToMorse() {
+        let latinInput = document.getElementById("latinInput").value;
+        let morseOutput = encode(latinInput);
+        document.getElementById("morseInput").value = morseOutput;
+      }
+
+      // Fonction pour traduire le morse vers le texte en latin
+      function translateToLatin() {
+        let morseInput = document.getElementById("morseInput").value;
+        let latinOutput = decode(morseInput);
+        document.getElementById("latinInput").value = latinOutput;
+      }
+    </script>
+  </body>
+</html>
